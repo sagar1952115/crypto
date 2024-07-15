@@ -25,7 +25,9 @@ const DataSchema = new mongoose.Schema({
 const Data = mongoose.model('Data', DataSchema);
 
 const fetchCryptoData = async () => {
-    const symbols = ['BTC', 'ETH'];
+    const symbols = ['BTC', 'ETH', "ENA","BNB","DOGE"];
+    // ETHena
+
     symbols.forEach(async (symbol) => {
         try {
             const response = await axios.post('https://api.livecoinwatch.com/coins/single', {
@@ -38,14 +40,14 @@ const fetchCryptoData = async () => {
                   "x-api-key": "af522b41-46c3-469f-b8ad-512abd518cea", // Replace with your API key
                 },
               });
-              console.log(symbol+" = " +response.data.rate)
+
             const price = response.data.rate;
             const data = new Data({ symbol, price });
             await data.save().catch((err)=>{
                 console.log(err)
             });
         } catch (error) {
-            console.error(error);
+            
         }
     });
 };
